@@ -18,7 +18,7 @@ Project members:
 
 This was done via AGILE Scrum, using Trello and other technologies.
 
-- Backend - mostly Nick/Dzhem, fair part Tijl, some Janne
+- Backend - mostly Nick/Dzhem, fair part Tijl
 - Frontend - mostly Tijl, some Dzhem
 
 ---
