@@ -1,0 +1,62 @@
+﻿@model Project_ITLab.Models.ViewModels.SessionsCollectionUserViewModel
+@{
+    ViewData["Title"] = "Sessions";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-controller="Session" asp-action="Create">Create a session</a>
+</p>
+
+<!--<tr>
+    <th>Name</th>
+    <th>Room</th>
+    <th>Leader(s)</th>
+    <th class="text-right">Start time</th>
+    <th class="text-right">End time</th>
+    <th></th>
+</tr-->
+
+
+
+@if (Model.User == null)
+{
+
+}
+
+@foreach (var session in Model.Sessions)
+{
+    <form asp-controller="Details" asp-action="Index" asp-route-id="@session.SessionId">
+        <button type="submit" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 pb-3 sessionbutton">
+            <img src="~/Images/session_@(session.SessionId).jpg" alt="@session.Name" class="pull-left" sessionimage" />
+            <h4>
+                @session.StartTime ses id
+                @session.Name <br />
+                <span class="pull-right">Room: @(session.Room)</span>
+            </h4>
+        </button>
+    </form>
+    <!--
+    <table class="table table-striped table-sm table-bordered">
+                <tr>
+                    <td>item.Name</td>
+                    <td>item.Room</td>
+                    <td>
+                        foreach (var leader in item.Leaders)
+                        {
+                            leader.FirstName  leader.LastName <br>
+                        }
+
+                    </td>
+                    <td class="text-right">item.StartTime</td>
+                    <td class="text-right">item.EndTime</td>
+                    <td>
+                        <a asp-controller="Brewer" asp-action="Detail" asp-route-id="item.SessionId">Detail</a> |
+                        <a asp-controller="Brewer" asp-action="Edit" asp-route-id="item.SessionId">Edit</a> |
+                        <a asp-controller="Brewer" asp-action="Delete" asp-route-id="item.SessionId">Delete</a>
+            </td>
+            </tr>
+        </table>
+            -->
+}

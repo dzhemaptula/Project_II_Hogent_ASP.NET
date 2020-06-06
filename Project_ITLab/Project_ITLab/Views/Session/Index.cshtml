@@ -1,0 +1,350 @@
+﻿@model Project_ITLab.Models.ViewModels.SessionsCollectionUserViewModel
+@{List<IGrouping<DateTime, Project_ITLab.Models.Domain.Session>> sessions;}
+@{if (Model.Status == 0) { sessions = Model.GetAll(); } else { if (Model.Status == 1) { sessions = Model.GetRegistered(); } else { if (Model.Status == 2) { sessions = Model.GetNotRegistered(); } else { if (Model.Status == 3) { sessions = Model.GetOwned(); } else { sessions = Model.GetUpcomming(); } } } } }
+@{ var action = ViewContext.RouteData.Values["action"].ToString();}
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl" lang="nl">
+<body dir="ltr">
+    <div class="clearfix"></div>
+    <script type="text/javascript" src="./Hogeschool Gent - Chamilo_files/HomeAjax.js.download"></script>
+    <ul class="nav nav-tabs portal-nav-tabs ui-sortable">
+        <li class="portal-nav-tab active ui-sortable-handle" data-tab-id="1169447" data-tab-title="Home">
+            <a class="portal-action-tab-title" href="https://chamilo.hogent.be/index.php?application=Chamilo\Core\Home#">
+                <span class="portal-nav-tab-title">ITLab</span>
+                <span class="glyphicon glyphicon-remove portal-action-tab-delete hidden"></span>
+            </a>
+        </li>
+        <li class="portal-nav-tab active ui-sortable-handle" data-tab-id="1169447" data-tab-title="Home">
+            <a asp-area="" asp-controller="Session" asp-action="Index" class="portal-action-tab-title">Terug naar home</a>
+        </li>
+        <li class="pull-right portal-actions ui-sortable-handle">
+            <div class="btn-toolbar btn-action-toolbar">
+                @if (Model.User != null)
+                {
+                    <div class="chamilo-menu-item-account-logout">
+                        <div style="display: inline-block">
+                            @Model.User.FirstName @Model.User.LastName -
+                            <a class="btn buttonAuth buttonAuthLogin btn-outline-danger" asp-controller="User" asp-action="Logout">
+                                Afmelden
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="chamilo-menu-item-account-logout">
+                        <a class="btn buttonAuth buttonAuthLogin btn-light" asp-controller="User" asp-route-actionName=@action asp-action="Login">
+                            Aanmelden
+                        </a>
+                    </div>
+                }
+            </div>
+        </li>
+    </ul>
+    <div class="row portal-tab-panel hidden">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="pull-right">
+                        <a href="https://chamilo.hogent.be/index.php?application=Chamilo\Core\Home#" class="portal-tab-panel-hide"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                    <h3 class="panel-title">Tabtitel aanpassen</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline portal-action-tab-form">
+                        <div class="form-group">
+                            <input type="text" class="form-control portal-action-tab-title" data-tab-id="" placeholder="EnterTabTitle">
+                        </div>
+                        <button type="submit" class="btn btn-primary portal-tab-title-save">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row portal-package-container hidden">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="pull-right">
+                        <a href="https://chamilo.hogent.be/index.php?application=Chamilo\Core\Home#" class="portal-action portal-package-hide"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                    <h3 class="panel-title">Selecteer een blok</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline package-search">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                                <input type="text" class="form-control" id="portal-package-name" placeholder="Geef een zoekterm in">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select class="form-control" id="portal-package-context">
+                                    <option value="">Toon alle</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row portal-package-blocks">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="./Hogeschool Gent - Chamilo_files/rssFeedRenderer.js.download"></script>
+    <script type="text/javascript" src="./Hogeschool Gent - Chamilo_files/Common.js.download"></script>
+    <script type="text/javascript" src="./Hogeschool Gent - Chamilo_files/BibLoans.js.download"></script>
+    <script type="text/javascript">
+        (function () {
+            var homeApp = angular.module('homeApp', ['rssFeedRendererApp', 'bibLoansApp']);
+            homeApp.filter('arrayToString', function () { return function (x) { return x; }; });
+        })();
+    </script>
+
+
+
+    <div class="portal-tabs ng-scope" ng-app="homeApp">
+        <div class="row portal-tab show" data-element-id="1169447">
+            <div class="col-xs-12 col-md-4 portal-column ui-resizable ui-sortable ui-resizable-autohide" data-tab-id="1169447" data-element-id="1169451" data-element-width="4">
+
+                @if (Model.User != null)
+                {
+                    <div class="panel panel-default portal-block" data-column-id="1169451" data-element-id="1169456">
+                        <div class="panel-heading ui-sortable-handle" style="cursor: move;">
+                            <div class="pull-right"></div>
+                            <h3 class="panel-title">Welkom @Model.User.FirstName @Model.User.LastName</h3>
+                        </div>
+                        @if (Model.GetRegistered().Count() != 0)
+                        {
+                            <div class="portal-block-content">
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="panel panel-default portal-block" data-column-id="1169451" data-element-id="1169456">
+
+                        <div class="panel-heading ui-sortable-handle" style="cursor: move;">
+                            <div class="pull-right"></div>
+                            <h3 class="panel-title">Welkom, log in voor meer gepersonaliseerde info</h3>
+                        </div>
+                        <div class="portal-block-content">
+                        </div>
+                    </div>
+                }
+
+
+                <div class="panel panel-warning portal-column-empty hidden" style="">
+                    <div class="panel-heading ui-sortable-handle" style="cursor: move;">
+                        <div class="pull-right">
+                            <a href="https://chamilo.hogent.be/index.php?application=Chamilo\Core\Home#" class="portal-action portal-action-column-delete show" data-column-id="1169451" title="Vewijder">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+
+
+                            <script type="text/javascript">
+                                (function () {
+
+                                    $(window).on('load', function () {
+                                        var ajaxConfiguration = {
+                                            getActivitiesUrl: 'https://chamilo.hogent.be/index.php?go=GetActivities&application=Hogent%5CApplication%5CSyllabusPlus%5CAjax'
+                                        };
+
+                                        var timeTableType = 'lesson';
+
+                                        hogent.application.syllabus.bootstrapWidget(
+                                            '#timeTableApp1169455', '#calendar1169455',
+                                            ajaxConfiguration, timeTableTranslations, timeTableType, 'agendaDay', 1
+                                        );
+                                    });
+
+                                })();
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-8 portal-column ui-resizable ui-sortable ui-resizable-autohide" data-tab-id="1169447" data-element-id="1169452" data-element-width="8">
+                <div class="panel panel-default portal-block" data-column-id="1169452" data-element-id="1169455">
+                    <div class="panel-heading ui-sortable-handle" style="cursor: move;">
+                        <h3 class="panel-title">Sessies</h3>
+                    </div>
+                    <div class="portal-block-form hidden">
+                        <div class="panel-body">
+                            <form onreset="resetElements()" action="/index.php" method="post" name="block" id="block" class="ng-pristine ng-valid">
+                                <script type="text/javascript" src="https://chamilo.hogent.be/Chamilo/Libraries/Resources/Javascript/Reset.js?1583229009"></script><div class="form-row row ">
+
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 formw">
+                                        <div class="element">	<input class="form-control" name="title" type="text" value="Rooster"></div>
+                                        <div class="form_feedback"></div>
+                                    </div>
+                                    <div class="clear">&nbsp;</div>
+                                </div><div class="form-row row ">
+
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 formw">
+
+                                        <div class="form_feedback"></div>
+                                    </div>
+                                    <div class="clear">&nbsp;</div>
+                                </div><div class="form-row row ">
+
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 formw">
+                                        <div class="element">
+                                            <select name="default_view">
+                                                <option value="agendaDay" selected="selected">Dag</option>
+                                                <option value="agendaWeek">Week</option>
+                                                <option value="listWeek">Weeklijst</option>
+                                                <option value="listMonth">Maandlijst</option>
+                                            </select>
+                                        </div>
+                                        <div class="form_feedback"></div>
+                                    </div>
+                                    <div class="clear">&nbsp;</div>
+                                </div><div class="form-row row ">
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 formw">
+                                        <div class="element">
+                                            <div class="checkbox no-toggle-style">
+                                                <input name="show_weekends" type="checkbox" value="1">
+                                                <label>
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form_feedback"></div>
+                                    </div>
+                                    <div class="clear">&nbsp;</div>
+                                </div><div class="form-row row ">
+                                    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 form-label">
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 formw">
+                                        <div class="element">
+                                            <button name="submit" class="btn btn-default  btn-success" value="Opslaan" type="submit">
+                                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span>&nbsp;
+                                                Opslaan
+                                            </button>&nbsp;<button name="reset" class="btn btn-default " value="Reset" type="reset">
+                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;
+                                                Reset
+                                            </button>&nbsp;<button class="btn btn-default btn-danger btn-success" name="cancel" value="Annuleer" type="submit">
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;
+                                                Annuleer
+                                            </button>
+                                        </div>
+                                        <div class="form_feedback"></div>
+                                    </div>
+                                    <div class="clear">&nbsp;</div>
+                                </div><input name="_qf__block" type="hidden" value="">
+                                <input name="id" type="hidden" value="1169455">
+
+                                <div class="clear">
+                                    &nbsp;
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="portal-block-content">
+                        <div class="panel-body">
+                            <div style="overflow:auto;">
+                                <script src="https://chamilo.hogent.be/Hogent/Libraries/Resources/Javascript/VueCommon.js?1583229027" type="text/javascript"></script>
+                                <script src="https://chamilo.hogent.be/Hogent/Application/SyllabusPlus/Resources/Javascript/FullCalendar.js?1583229021" type="text/javascript"></script>
+                                <script src="https://chamilo.hogent.be/Hogent/Application/SyllabusPlus/Resources/Javascript/TimeTable.js?1583229020" type="text/javascript"></script>
+                                <link href="https://chamilo.hogent.be/Hogent/Libraries/Resources/Css/Aqua/Common.css?1583229025" type="text/css" rel="stylesheet">
+                                <link href="https://chamilo.hogent.be/Hogent/Application/SyllabusPlus/Resources/Css/Aqua/FullCalendar.css?1583229020" type="text/css" rel="stylesheet">
+                                <div id="timeTableApp1169455" class="timeTable" style="min-width: 350px;">
+                                    <div id="calendar1169455" class="fc fc-unthemed fc-ltr">
+                                        <div class="fc-toolbar">
+                                            <div class="fc-right">
+                                                <div class="fc-button-group" id="btn-toggle">
+                                                    @if (Model.User != null)
+                                                    {
+                                                        <a asp-controller="Session" asp-action="Index" asp-route-id="3" type="button" class="fc-agendaDay-button fc-button fc-state-default fc-corner-left @(Model.Status==3? "fc-state-active": "")" style="padding:5px">Eigen Sessies</a>
+
+                                                    }
+                                                    <a asp-controller="Session" asp-action="Index" asp-route-id="4" type="button" class="fc-listWeek-button fc-button fc-state-default @(Model.Status==4? "fc-state-active": "")" style="padding:5px">Toekomstige sessies</a>
+                                                    @if (Model.User != null)
+                                                    {
+                                                        <a asp-controller="Session" asp-action="Index" asp-route-id="1" type="button" class="fc-agendaDay-button fc-button fc-state-default fc-corner-left @(Model.Status == 1 ? "fc-state-active" : "")" style="padding:5px">Ingeschreven</a>
+                                                        <a asp-controller="Session" asp-action="Index" asp-route-id="2" type="button" class="fc-listWeek-button fc-button fc-state-default @(Model.Status == 2 ? "fc-state-active" : "")" style="padding:5px">Niet ingeschreven</a>
+                                                    }
+                                                    <a asp-controller="Session" asp-action="Index" asp-route-id="0" type="button" class="fc-listMonth-button fc-button fc-state-default fc-corner-right @(Model.Status==0? "fc-state-active": "")" style="padding:5px">Allemaal</a>
+                                                </div>
+                                            </div>
+                                            <div class="fc-left"><h2>@DateTime.Now.ToString("yyyy")</h2></div><div class="fc-clear"></div>
+                                        </div><div class="fc-view-container" style="">
+                                            <div class="fc-view fc-listMonth-view fc-list-view fc-widget-content" style="">
+                                                <div class="fc-scroller" style="overflow: hidden auto; height: 778px;">
+                                                    <table class="fc-list-table">
+                                                        <tbody>
+                                                            @foreach (var date in sessions)
+                                                            {
+
+                                                                <tr class="fc-list-heading" data-date="2020-03-03">
+                                                                    <td class="fc-widget-header" colspan="3">
+                                                                        <a class="fc-list-heading-main" data-goto="{&quot;date&quot;:&quot;2020-03-03&quot;,&quot;type&quot;:&quot;day&quot;}">
+                                                                            @date.FirstOrDefault().StartTime.DayOfWeek @date.FirstOrDefault().StartTime.ToString("d MMMM")
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                foreach (var session in date)
+                                                                {
+                                                                    <tr class="fc-list-item otherEvent" title="@session.Room">
+                                                                        <td class="fc-list-item-title fc-widget-content"><a asp-controller="Session" asp-action="Details" asp-route-id="@session.SessionId"><p><strong>@session.Name</strong>  -  @session.Room</p></a></td>
+                                                                        <td class="fc-list-item-marker fc-widget-content"> <span class="fc-event-dot"></span></td>
+                                                                        <td class="fc-list-item-time fc-widget-content"><a asp-controller="Session" asp-action="Details" asp-route-id="@session.SessionId"><p>  @session.StartTime.ToString("hh:mm") - @session.EndTime.ToString("hh:mm") </p></a></td>
+                                                                    </tr>
+                                                                }
+
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <div id="mobileDetector"></div> <div></div>
+                                </div>
+
+                                <script type="text/javascript">
+                                    (function () {
+
+                                        $(window).on('load', function () {
+                                            var ajaxConfiguration = {
+                                                getActivitiesUrl: 'https://chamilo.hogent.be/index.php?go=GetActivities&application=Hogent%5CApplication%5CSyllabusPlus%5CAjax'
+                                            };
+
+                                            var timeTableType = 'lesson';
+
+                                            hogent.application.syllabus.bootstrapWidget(
+                                                '#timeTableApp1169455', '#calendar1169455',
+                                                ajaxConfiguration, timeTableTranslations, timeTableType, 'agendaDay', 1
+                                            );
+                                        });
+
+                                    })();
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-warning portal-column-empty hidden" style="">
+                    <div class="panel-heading ui-sortable-handle" style="cursor: move;">
+                        <div class="pull-right">
+                            <a href="#" class="portal-action portal-action-column-delete show" data-column-id="1169452" title="Vewijder">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+                        <h3 class="panel-title">Lege kolom</h3>
+                    </div>
+                    <div class="panel-body">
+                        Deze kolom is op dit moment leeg. Voeg er nieuwe inhoud aan toe of verwijder ze volledig door dit blok te verwijderen.
+                    </div>
+                </div>
+                <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; display: none;"></div>
+            </div>
+
+            <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; display: none;"></div>
+        </div>
+    </div>
+</body>
+</html>

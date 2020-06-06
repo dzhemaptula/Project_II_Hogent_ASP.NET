@@ -14,8 +14,6 @@ Project members:
 - Nick Lersberghe: https://github.com/nlersber
 - Tijl Zwartjes: https://github.com/TijlZ
 
-(Janne Van Schepdael)
-
 ---
 
 This was done via AGILE Scrum, using Trello and other technologies.
@@ -29,3 +27,5 @@ Project duration:
 6 weeks:
 
 - 3 sprints of 2 weeks
+
+(C) Hogent Projecten II

@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Open session";
+}
+
+<div style="width: 100%; margin-top: 50px; margin-bottom: 50px;">
+
+    <h4 style="text-align: center">
+        Bent u zeker dat u sessie '<strong>@ViewData["Name"]</strong>' wilt starten?
+        <br/>
+        Deze sessie start om: @ViewData["startTime"]
+    </h4>
+    <form asp-action="Start" method="post">
+        <div style="margin: auto; width: fit-content;">
+            <input class="btn btn-success" type="submit" value="Start" style="width: 100px; margin-right: 20px;">
+            <a asp-action="Index" class="btn btn-secondary" style="width: 100px; border: 1px solid steelblue;">Cancel</a>
+        </div>
+    </form>
+</div>

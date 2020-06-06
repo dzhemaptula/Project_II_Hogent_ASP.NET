@@ -1,0 +1,3 @@
+#TODO Things that need to be done
+#FIX Small fixes to existing code
+#REMOVE Stuff that needs to be removed for some reason

@@ -1,0 +1,86 @@
+﻿@model Project_ITLab.Models.ViewModels.AttendViewModel
+@{
+    ViewData["Title"] = "Attend";
+}
+<h2><strong>@Model.Session.Name</strong></h2>
+<h4>@Model.Session.SessionUsers.Count(s => s.HasAttended) van de @Model.Session.SessionUsers.Count geregistreerden zijn aanwezig.</h4>
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @Html.Raw(TempData["error"].ToString())
+    </div>
+}
+<div>
+    <p>Startuur: @Model.Session.StartTime.ToString("HH:mm")</p>
+    <p>Einduur: @Model.Session.EndTime.ToString("HH:mm")<p>
+</div>
+<div class="dynamic-visual-tab-content">
+    @if (Model.Session.IsAttendable())
+    {
+        <a class="btn btn-success" asp-controller="Session" asp-action="Start" asp-route-id="@Model.Session.SessionId">Start sessie</a>
+    }
+    else if (Model.Session.IsRunning())
+    {
+        <a class="btn btn-danger" asp-controller="Session" asp-action="Close" asp-route-id="@Model.Session.SessionId">Sluit sessie</a>
+    }
+    <h5>Scan barcode:</h5>
+    <form asp-action="Attend" asp-route-id="@Model.Session.SessionId" method="post">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label class="sr-only" asp-for="CardNumber"></label>
+            <input style="border:3px solid #ddd" class="form-username form-control" asp-for="CardNumber" autofocus />
+            <span asp-validation-for="CardNumber" class="text-danger"></span>
+        </div>
+        <input class="btn btn-success" type="submit" value="Meld aanwezigheid">
+    </form>
+    <div class="tab-content-header">
+        <h5>Ingeschreven users</h5>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 table-navigation-actions">
+        </div>
+        <div class="col-xs-12 table-navigation-search">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover table-data" id="subscribed_user_table">
+                    <thead>
+                        <tr>
+                            <th><a>Username</a></th>
+                            <th><a>Aanwezig</a></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Session.SessionUsers.Select(s => s.User))
+                        {
+                            <tr>
+                                <td>@user.Username</td>
+                                @if (@Model.Session.SessionUsers.FirstOrDefault(s => s.User == user).HasAttended)
+                                {
+                                    <td>&#10004;</td>
+                                }
+                                else
+                                {
+                                    <td>&#10006;</td>
+                                    <td>
+                                        <form asp-action="Attend" asp-route-id="@Model.Session.SessionId" method="post">
+                                            <input type="hidden" value="@user.Username" asp-for="Username" />
+                                            <span asp-validation-for="Username" class="text-danger"></span>
+                                            <input class="btn btn-success" type="submit" value="Meld je aanwezig">
+                                        </form>
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

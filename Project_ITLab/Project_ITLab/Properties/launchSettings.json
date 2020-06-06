@@ -1,0 +1,29 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:55156",
+      "sslPort": 44337
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AzureConnectionString": "Data Source=40.118.16.70;Initial Catalog=Project_ITLab;Persist Security Info=True;User ID=dzhem.aptula;Password=4.C4F064f0cE"
+      }
+    },
+    "Project_ITLab": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "AzureConnectionString": "Data Source=40.118.16.70;Initial Catalog=Project_ITLab;Persist Security Info=True;User ID=dzhem.aptula;Password=4.C4F064f0cE",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    }
+  }
+}
